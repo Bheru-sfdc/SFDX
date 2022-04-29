@@ -13,7 +13,7 @@ jobs:
       # and https://developer.salesforce.com/media/salesforce-cli/manifest.json
       - DX_CLI_URL: https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
       - TESTLEVEL: RunSpecifiedTests 
-      - TESTCLASSLIST: GeocodingServiceTest,TestPropertyController,TestSampleDataController
+      - TESTCLASSLIST: DemoControllerTests
      
       
     steps:
