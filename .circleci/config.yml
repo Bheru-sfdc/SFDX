@@ -73,6 +73,15 @@ workflows:
           filters:
             branches:
               only: /^feature.*/
+
+  deploy-Prod:
+    jobs:
+      - build:
+          name: deploy-Prod
+          context: Dev-Sandbox
+          filters:
+            branches:
+              only: /^master.*/
               
   
 
