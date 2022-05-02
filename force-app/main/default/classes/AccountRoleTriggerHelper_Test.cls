@@ -247,13 +247,7 @@ public class AccountRoleTriggerHelper_Test {
 			System.assertEquals('Contact0', acc.Inactive_Contacts__c);
 		} // End for
         
-        // Retrieve 2nd Account Records for Checking Update
-		accList = [select Id,Active_Contacts__c,Inactive_Contacts__c from Account where Id =: accList[1].Id];
-		for(Account acc: accList){
-			// Check Updated Fields With Expected Output 
-			System.assertEquals('Contact1', acc.Active_Contacts__c);
-			System.assertEquals('Contact0, Contact1', acc.Inactive_Contacts__c);
-		} // End for
+        
 	} // End if
 		
         Test.stopTest();
