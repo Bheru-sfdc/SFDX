@@ -69,7 +69,7 @@ workflows:
     jobs:
       - build:
           name: deploy-feature
-          context: Staging-Org
+          context: Bheru-Sandbox
           filters:
             branches:
               only: /^feature.*/
