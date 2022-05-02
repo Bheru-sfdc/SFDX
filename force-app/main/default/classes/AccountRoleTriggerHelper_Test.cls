@@ -116,7 +116,7 @@ public class AccountRoleTriggerHelper_Test {
         if(accList.size() >0){
             for(Integer i=0; i<accList.size(); i++){
               for(Integer j=0; j<2; j++){
-                conList.add(TestDataFactory.createBulkContact(accList[i].Id, j) );
+                conList.add(TestDataFactory.createBulkContact(accList[i].Id, j, null) );
 				}  
             }
             
@@ -198,7 +198,7 @@ public class AccountRoleTriggerHelper_Test {
         if(accList.size() >0){
             for(Integer i=0; i<accList.size(); i++){
               for(Integer j=0; j<2; j++){
-                conList.add(TestDataFactory.createBulkContact(accList[i].Id, j) );
+                conList.add(TestDataFactory.createBulkContact(accList[i].Id, j, null) );
 				} // End for  
             } // End for
 
@@ -284,7 +284,7 @@ public class AccountRoleTriggerHelper_Test {
         if(accList.size() >0){
             for(Integer i=0; i<accList.size(); i++){
               for(Integer j=0; j<2; j++){
-                conList.add(TestDataFactory.createBulkContact(accList[i].Id, j) );
+                conList.add(TestDataFactory.createBulkContact(accList[i].Id, j, null) );
 				} // End for  
             } // End for
 
