@@ -150,6 +150,7 @@ workflows:
   
   deploy-prod:
     jobs:
+      - validate-code
       - deploy-code:
           name: deploy-production
           context: Dev-Sandbox
