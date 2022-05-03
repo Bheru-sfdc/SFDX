@@ -43,9 +43,14 @@ jobs:
       - run:
           name: convert the files in deploy folder to MDAPI format
           command: . buildScripts/convertIntoMDAPI.sh
+          
       - run:
-          name: MDAPI Deploy to Target Deployment Org
-          command: . buildScripts/validateWithTest.sh
+          name: convert MDAPI to SFDX
+          command: . buildScripts/convertMDAPIToSFDX.sh
+
+      - run:
+          name: Deploy Code to Target Deployment Org
+          command: . buildScripts/deployCode.sh
 
   deploy-code:
     machine: true
