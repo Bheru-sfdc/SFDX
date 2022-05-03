@@ -31,6 +31,10 @@ jobs:
             git config user.name "Bheru-sfdc"
             #git pull origin develop
             git pull origin << pipeline.git.branch >>
+
+      - run:
+          name: Authenticating org
+          command: . buildScripts/decryptSeverKey.sh
  
       - run:
           name: Authenticating org
@@ -74,6 +78,10 @@ jobs:
  
       - run:
           name: Authenticating org
+          command: . buildScripts/decryptSeverKey.sh
+
+      - run:
+          name: Authenticating org
           command: . buildScripts/loginToSandbox.sh
 
       - run:
@@ -114,7 +122,11 @@ jobs:
             git config user.name "Bheru-sfdc"
             #git pull origin develop
             git pull origin << pipeline.git.branch >>
- 
+            
+      - run:
+          name: Authenticating org
+          command: . buildScripts/decryptSeverKey.sh
+
       - run:
           name: Authenticating org
           command: . buildScripts/loginToSandbox.sh
