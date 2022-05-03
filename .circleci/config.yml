@@ -148,8 +148,8 @@ workflows:
     jobs:
       -run-test
       - validate-code:
-        requires:
-          - run-test
+          requires:
+            - run-test
           name: deploy-feature
           context: Bheru-Sandbox
           filters:
