@@ -146,19 +146,19 @@ workflows:
   version: 2
   deploy-feature:
     jobs:
+      - run-test
       - validate-code:
           name: deploy-feature
           context: Bheru-Sandbox
           filters:
             branches:
               only: /^feature.*/
+          requires:
+            - run-test
 
   deploy-Prod:
     jobs:
-      - run-test
       - deploy-code:
-          requires:
-            - run-test
           name: deploy-Prod
           context: Dev-Sandbox
           filters:
