@@ -5,7 +5,7 @@ general:
 
 jobs:
   
-  Validate-code:
+  validate-code:
     machine: true
     working_directory: ~/ci_app
     environment:
@@ -54,9 +54,6 @@ jobs:
       # from https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli_standalone.htm
       # and https://developer.salesforce.com/media/salesforce-cli/manifest.json
       - DX_CLI_URL: https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
-      - TESTLEVEL: RunSpecifiedTests 
-      - TESTCLASSLIST: AccountRoleTriggerHelper_Test,DemoControllerTests,UpdateAmountOnAccountHelperTest
-     
       
     steps:
       - checkout # check out the code in the project directory
