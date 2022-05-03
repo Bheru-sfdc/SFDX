@@ -141,7 +141,6 @@ jobs:
 
 
 
-  
 workflows:
   version: 2
   deploy-feature:
@@ -152,8 +151,7 @@ workflows:
           filters:
             branches:
               only: /^feature.*/
-          requires:
-            - run-test
+          
           
 
         
