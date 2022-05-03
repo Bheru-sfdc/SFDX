@@ -43,7 +43,7 @@ jobs:
       - run:
           name: convert the files in deploy folder to MDAPI format
           command: . buildScripts/convertIntoMDAPI.sh
-          
+
       - run:
           name: convert MDAPI to SFDX
           command: . buildScripts/convertMDAPIToSFDX.sh
@@ -146,9 +146,12 @@ workflows:
   version: 2
   deploy-feature:
     jobs:
+      - run-test
       - validate-code:
           name: deploy-feature
           context: Bheru-Sandbox
+          requires:
+            - run-test
           filters:
             branches:
               only: /^feature.*/
