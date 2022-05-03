@@ -155,15 +155,16 @@ workflows:
 
   deploy-Prod:
     jobs:
-      - run-test
-      - deploy-code:
+      
           name: deploy-Prod
           context: Dev-Sandbox
-          requires:
-            - run-test
           filters:
             branches:
               only: /^master.*/
+            - run-test
+            - deploy-code:
+              requires:
+                - run-test
 
   
 
