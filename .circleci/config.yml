@@ -150,6 +150,7 @@ workflows:
 
   deploy-Prod:
     jobs:
+      - run-test
       - deploy-code:
           name: deploy-Prod
           context: Dev-Sandbox
