@@ -74,7 +74,11 @@ jobs:
  
       - run:
           name: Authenticating org
-          command: . buildScripts/loginToOrg.sh
+          command: . buildScripts/decryptServerKey.sh
+
+      - run:
+          name: Authenticating org
+          command: . buildScripts/loginToSandbox.sh
 
       - run:
           name: convert the files in deploy folder to MDAPI format
@@ -135,19 +139,22 @@ jobs:
 
 workflows:
   version: 2
-  
+  deploy-feature:
+    jobs:
+      - validate-code:
+          name: deploy-feature
+          context: Bheru-Sandbox
+          filters:
+            branches:
+              only: /^feature.*/
   deploy-Prod:
     jobs:
-      - validate-code
       - deploy-code:
-          requires:
-            - validate-code
           name: deploy-prod
           context: Dev-Sandbox
           filters:
             branches:
               only: /^master.*/
-          
           
           
           
