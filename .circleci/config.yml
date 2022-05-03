@@ -161,10 +161,10 @@ workflows:
           filters:
             branches:
               only: /^master.*/
-            - run-test
-            - deploy-code:
-              requires:
-                - run-test
+          - run-test
+          - deploy-code:
+            requires:
+              - run-test
 
   
 
