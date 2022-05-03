@@ -149,7 +149,6 @@ workflows:
               only: /^feature.*/
   deploy-Prod:
     jobs:
-      - validate-code
       - deploy-code:
           name: deploy-prod
           context: Dev-Sandbox
@@ -157,7 +156,7 @@ workflows:
             branches:
               only: /^master.*/
           requires:
-            - validate-code
+            - deploy-feature
           
           
 
