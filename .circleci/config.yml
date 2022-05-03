@@ -157,7 +157,7 @@ workflows:
             branches:
               only: /^master.*/
           requires:
-            - run-test 
+            - run-test: 
               
   
 
