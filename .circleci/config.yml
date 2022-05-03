@@ -155,8 +155,7 @@ workflows:
           filters:
             branches:
               only: /^master.*/
-          requires:
-            - deploy-feature
+          
           
           
 
