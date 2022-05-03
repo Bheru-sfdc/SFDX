@@ -153,12 +153,12 @@ workflows:
       - deploy-code:
           name: deploy-Prod
           context: Dev-Sandbox
+          requires:
+            - run-test
           filters:
             branches:
               only: /^master.*/
-          requires:
-            - run-test: 
-              
+
   
 
   
