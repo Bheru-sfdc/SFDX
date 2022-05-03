@@ -33,10 +33,6 @@ jobs:
             git pull origin << pipeline.git.branch >>
  
       - run:
-          name: Decrypt server key
-          command: . buildScripts/decryptServerKey.sh
-
-      - run:
           name: Authenticating org
           command: . buildScripts/loginToSandbox.sh
 
