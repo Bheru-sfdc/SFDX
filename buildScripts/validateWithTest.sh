@@ -1,0 +1,2 @@
+echo "Deploy to target deployment org and run unit tests"
+    sfdx force:mdapi:deploy --checkonly --wait -1 -d deploy-sf-metadata --targetusername $SFDX_Username --testlevel $TESTLEVEL -r $TESTCLASSLIST

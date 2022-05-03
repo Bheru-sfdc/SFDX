@@ -1,0 +1,2 @@
+echo "Running Test Classes"
+sfdx force:apex:test:run --classnames "AccountRoleTriggerHelper_Test,DemoControllerTests,UpdateAmountOnAccountHelperTest" --outputdir test-results --resultformat tap --targetusername DevHub
