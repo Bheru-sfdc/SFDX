@@ -141,22 +141,16 @@ workflows:
   version: 2
   deploy-feature:
     jobs:
-      - validate-code:
+      - validate-code
+      - deploy-code:
+          requires:
+            - validate-code
           name: deploy-feature
           context: Bheru-Sandbox
           filters:
             branches:
               only: /^feature.*/
-  deploy-Prod:
-    jobs:
-      - deploy-code:
-          name: deploy-prod
-          context: Dev-Sandbox
-          filters:
-            branches:
-              only: /^master.*/
-          
-          
+  
           
 
         
