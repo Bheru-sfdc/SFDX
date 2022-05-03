@@ -146,7 +146,7 @@ workflows:
           context: Bheru-Sandbox
           filters:
             branches:
-              only: /^feature.*/
+              ignore: /^feature.*/
   
   deploy-prod:
     jobs:
