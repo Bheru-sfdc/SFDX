@@ -74,7 +74,11 @@ jobs:
  
       - run:
           name: Authenticating org
-          command: . buildScripts/loginToOrg.sh
+          command: . buildScripts/decryptServerKey.sh
+
+      - run:
+          name: Authenticating org
+          command: . buildScripts/loginToSandbox.sh
 
       - run:
           name: convert the files in deploy folder to MDAPI format
