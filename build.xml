@@ -1,4 +1,4 @@
-<project name="Demo-CircleCI" default="deployCodeCheckOnly" basedir="." xmlns:sf="antlib:com.salesforce">
+<project name="Demo-CircleCI"  basedir="." xmlns:sf="antlib:com.salesforce">
 <property name="CONVERTSFDXTOMDAPI" value="${CONVERTSFDXTOMDAPI}" />
 
     <target name="preparecode">
