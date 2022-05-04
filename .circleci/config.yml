@@ -36,7 +36,7 @@ jobs:
           name: Get Changes For Deploy
           command: |
             #Using Ant script copy only changed files to a deployment source directory 
-            ant -lib lib/ -Denvdataroot=$envdataroot -buildfile build.xml
+            ant -lib lib/ -DCONVERTSFDXTOMDAPI=$CONVERTSFDXTOMDAPI -buildfile build.xml
 
       - run:
           name: Authenticating org
