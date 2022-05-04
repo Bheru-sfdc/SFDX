@@ -32,7 +32,7 @@ jobs:
             #git pull origin develop
             git pull origin << pipeline.git.branch >>
 
-       - run:
+      - run:
           name: Get Changes For Deploy
           command: |
             #Using Ant script copy only changed files to a deployment source directory 
