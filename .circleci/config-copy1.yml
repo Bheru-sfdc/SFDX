@@ -1,0 +1,88 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
+version: 2.1
+
+general:
+
+jobs:
+  
+  build:
+    machine: true
+    working_directory: ~/ci_app
+    environment:
+      # from https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli_standalone.htm
+      # and https://developer.salesforce.com/media/salesforce-cli/manifest.json
+      - DX_CLI_URL: https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
+      - TESTLEVEL: RunSpecifiedTests 
+      - TESTCLASSLIST: AccountRoleTriggerHelper_Test,DemoControllerTests,UpdateAmountOnAccountHelperTest
+     
+      
+    steps:
+      - checkout # check out the code in the project directory
+      - run:
+          name: The First Step
+          command: |
+            echo 'Hello Developer!'
+            echo 'This is the delivery pipeline'
+      - run:
+          name: Download CLI
+          command: |
+            mkdir sfdx
+            wget -qO- $DX_CLI_URL | tar xJ -C sfdx --strip-components 1
+      - run:
+          name: Install CLI
+          command: |
+            ./sfdx/install
+            sfdx
+            mkdir tmp
+      - run:
+          name: Set HEAD in GitHub Repo
+          command: |
+            #Use a Git pull command to set HEAD correctly in Repo. For build.xml to work properly 
+            #below git pull command actually is git pull origin BRANCH NAME from where build is to happen i.e. master/develop/feature etc.
+            git config user.email "kbssalesforce77@gmail.com"
+            git config user.name "Bheru-sfdc"
+            #git pull origin develop
+            git pull origin << pipeline.git.branch >>
+ 
+      - run:
+          name: Decrypt server key
+          command: |
+            mkdir keys
+            echo $Server_Key | base64 -di > keys/server.key
+
+            echo "Authenticating org"
+            sfdx force:auth:jwt:grant --clientid $Consumer_key --jwtkeyfile keys/server.key --username $SFDX_Username --instanceurl $Instance_URL --setdefaultdevhubusername -a DevHub
+      - run:
+          name: convert the files in deploy folder to MDAPI format
+          command: |
+            #from SFDX project structure CONVERT TO MDAPI format
+            sfdx force:source:convert -r force-app -d deploy-sf-metadata     
+      - run:
+          name: MDAPI Deploy to Target Deployment Org
+          no_output_timeout: 300m
+          command: |
+            #Deploy to target deployment org and run unit tests. 
+            sfdx force:mdapi:deploy --checkonly --wait -1 -d deploy-sf-metadata --targetusername $SFDX_Username --testlevel $TESTLEVEL -r $TESTCLASSLIST
+workflows:
+  version: 2
+  deploy-feature:
+    jobs:
+      - build:
+          name: deploy-feature
+          context: Bheru-Sandbox
+          filters:
+            branches:
+              only: /^feature.*/
+
+  deploy-Prod:
+    jobs:
+      - build:
+          name: deploy-Prod
+          context: Dev-Sandbox
+          filters:
+            branches:
+              only: /^master.*/
+              
+  
+
+  

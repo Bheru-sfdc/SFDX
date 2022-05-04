@@ -96,6 +96,14 @@ jobs:
 
 workflows:
   version: 2
+  deploy-feature:
+    jobs:
+      - validate-code:
+          name: deploy-feature
+          context: Bheru-Sandbox
+          filters:
+            branches:
+              only: /^feature.*/
   deploy-Prod:
     jobs:
       - validate-code
