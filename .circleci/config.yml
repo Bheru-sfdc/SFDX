@@ -100,7 +100,7 @@ workflows:
     jobs:
       - validate-code:
           name: deploy-feature
-          context: Bheru-Sandbox
+          context: Dev-Sandbox
           filters:
             branches:
               only: /^feature.*/
