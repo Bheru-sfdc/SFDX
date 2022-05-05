@@ -138,7 +138,7 @@ public class AccountRoleTriggerHelper_Test {
 		
 			for(Account acc: accList){
                 // Check Updated Fields With Expected Output
-                System.assertEquals('Contact1, Contact0', acc.Active_Contacts__c);
+                System.assertEquals('Contact0, Contact1', acc.Active_Contacts__c);
 				System.assertEquals(null, acc.Inactive_Contacts__c);
  					
 			} // End for
