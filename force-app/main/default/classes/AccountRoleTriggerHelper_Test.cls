@@ -314,10 +314,11 @@ public class AccountRoleTriggerHelper_Test {
 			for(Account acc: accList){
 				System.assertEquals('Contact0', acc.Active_Contacts__c);
 				System.assertEquals(null, acc.Inactive_Contacts__c);
+                System.assert(false,'Failed');
 			} // End for
             
 
-            
+
 		} // End if
         Test.stopTest();
 
