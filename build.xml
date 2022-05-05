@@ -1,4 +1,4 @@
-<project name="Demo-CircleCI" basedir="." xmlns:sf="antlib:com.salesforce">
+<project name="Demo-CircleCI" default="convertCode" basedir="." xmlns:sf="antlib:com.salesforce">
 <property name="CONVERTSFDXTOMDAPI" value="${CONVERTSFDXTOMDAPI}" />
     <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${basedir}/lib/ant-contrib-1.0b3.jar"/>
     <taskdef resource="com/salesforce/antlib.xml" uri="antlib:com.salesforce">
@@ -6,8 +6,13 @@
             <pathelement location="${basedir}/lib/ant-salesforce.jar" />
         </classpath>
     </taskdef>
+    
+    <target name="convertCode">
+        <antcall target="preparecode">
+        </antcall>
+    </target>
 
-    <target name="preparecode">
+    <target name="preparecode" >
         <if>
             <equals arg1="${CONVERTSFDXTOMDAPI}" arg2="yesPlease"/>
             <then>
