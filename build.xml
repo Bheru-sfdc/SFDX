@@ -8,8 +8,7 @@
     </taskdef>
 
     <target name="convertCode">
-        <antcall target="codeConversion">
-        </antcall>
+        <antcall target="codeConversion" />
     </target>
 
     <target name="codeConversion" >
@@ -39,29 +38,16 @@
     </target>
 
     <target name="convertSrcMetadataToForceApp">
-        <input  message="Do you want to Continue. This will delete the current force-app folder?" validargs="y,n" addproperty="updatePermission" />
-        <if>
-            <equals arg1="${updatePermission}" arg2="y"/>
-            <then>
-                <echo message="Deleting already existing force-app folder if any...."/>
-                <delete includeemptydirs="true" quiet="true">
-                    <fileset dir="force-app/" includes="**/*"/>
-                </delete>
-                <echo message="Starting Conversion...."/>
-                <exec executable="/bin/sh" osfamily="unix">
-                    <arg value="-c"/>
-                    <arg value="sfdx force:mdapi:convert -r ./src -d ./force-app"/>
-                </exec>
-                <exec executable="cmd" osfamily="windows">
-                    <arg value="/c"/>
-                    <arg value="sfdx force:mdapi:convert -r ./src -d ./force-app"/>
-                </exec>
-                <echo message="Converted"/>
-            </then>
-            <else>
-                <echo message="Terminated by the user."/>
-            </else>
-        </if>
+        <echo message="Deleting already existing force-app folder if any...."/>
+        <delete includeemptydirs="true" quiet="true">
+            <fileset dir="force-app/" includes="**/*"/>
+        </delete>
+        <echo message="Starting Conversion...."/>
+            <exec executable="/bin/sh" osfamily="unix">
+                <arg value="-c"/>
+                <arg value="sfdx force:mdapi:convert -r ./src -d ./force-app"/>
+            </exec>
+            <echo message="Converted"/>
     </target>
 
 </project>
