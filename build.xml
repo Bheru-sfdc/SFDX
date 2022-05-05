@@ -1,5 +1,8 @@
 <project name="Demo-CircleCI" default="convertCode" basedir="." xmlns:sf="antlib:com.salesforce">
-<property name="CONVERTSFDXTOMDAPI" value="${CONVERTSFDXTOMDAPI}" />
+    <!----> Added property -->
+    <property name="ISCONVERTCODE" value="${ISCONVERTCODE}" />
+    
+    <!-- libraries-->
     <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${basedir}/lib/ant-contrib-1.0b3.jar"/>
     <taskdef resource="com/salesforce/antlib.xml" uri="antlib:com.salesforce">
         <classpath>
@@ -7,24 +10,26 @@
         </classpath>
     </taskdef>
 
+    <!-- Base Target -->
     <target name="convertCode">
         <antcall target="codeConversion" />
     </target>
 
+    <!-- from this Target we can Convert Code From SFDX to MDAPI and From MDAPI to SFDX-->
     <target name="codeConversion" >
         <if>
-            <equals arg1="${CONVERTSFDXTOMDAPI}" arg2="yesPlease"/>
+            <equals arg1="${ISCONVERTCODE}" arg2="true"/>
             <then>
-                <antcall target="convertForceAppToSrcMetadata"/>
+                <antcall target="convertSFDXToMDAPI"/>
             </then>
             <else>
-                <antcall target="convertForceAppToSrcMetadata"/>
-                <antcall target="convertSrcMetadataToForceApp"/>
+                <antcall target="convertSFDXToMDAPI"/>
+                <antcall target="convertMDAPIToSFDX"/>
             </else>
         </if>
     </target>
 
-    <target name="convertForceAppToSrcMetadata">
+    <target name="convertSFDXToMDAPI">
         <echo message="Deleting already existing src folder if any...."/>
         <delete includeemptydirs="true" quiet="true">
             <fileset dir="src" includes="**/*"/>
@@ -37,7 +42,7 @@
         <echo message="Converted"/>
     </target>
 
-    <target name="convertSrcMetadataToForceApp">
+    <target name="convertMDAPIToSFDX">
         <echo message="Deleting already existing force-app folder if any...."/>
         <delete includeemptydirs="true" quiet="true">
             <fileset dir="force-app/" includes="**/*"/>
