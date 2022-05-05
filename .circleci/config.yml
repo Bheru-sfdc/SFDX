@@ -36,7 +36,7 @@ jobs:
           name: Get Changes For Deploy
           command: |
             #Using Ant script copy only changed files to a deployment source directory 
-            ant -lib lib/  -ISCONVERTCODE=$ISCONVERTCODE -buildfile build.xml
+            ant -lib lib/  -DISCONVERTCODE=$ISCONVERTCODE -buildfile build.xml
 
       - run:
           name: Decrypting Server Key
