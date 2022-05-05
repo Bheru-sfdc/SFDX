@@ -1,5 +1,5 @@
 <project name="Demo-CircleCI" default="convertCode" basedir="." xmlns:sf="antlib:com.salesforce">
-    <!----> Added property -->
+    <!--- Added property -->
     <property name="ISCONVERTCODE" value="${ISCONVERTCODE}" />
     
     <!-- libraries-->
