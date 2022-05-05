@@ -96,10 +96,19 @@ jobs:
 
 workflows:
   version: 2
+  deploy-feature:
+    jobs:
+      - build:
+          name: deploy-feature
+          context: Bheru-Sandbox
+          filters:
+            branches:
+              only: /^feature.*/
 
   deploy-Prod:
     when:
-      - equal: [ feature, << pipeline.git.branch >> ]
+      and:
+        - equal: [ master, << pipeline.git.branch >> ]
     jobs:
       - validate-code
       - deploy-code:
@@ -107,7 +116,7 @@ workflows:
           context: Dev-Sandbox
           filters:
             branches:
-              only: /^feature.*/
+              only: /^master.*/
           requires:
             - validate-code
           
