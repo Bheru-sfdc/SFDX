@@ -1,8 +1,14 @@
-<project name="Demo-CircleCI"  default="preparecode" basedir="." xmlns:sf="antlib:com.salesforce" xmlns:ac="antlib:net.sf.antcontrib">
+<project name="Demo-CircleCI"  default="preparecode"  basedir="." xmlns:sf="antlib:com.salesforce">
 <property name="CONVERTSFDXTOMDAPI" value="${CONVERTSFDXTOMDAPI}" />
-
+    <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${basedir}/lib/ant-contrib-1.0b3.jar"/>
+    <taskdef resource="com/salesforce/antlib.xml" uri="antlib:com.salesforce">
+        <classpath>
+            <pathelement location="${basedir}/lib/ant-salesforce.jar" />
+        </classpath>
+    </taskdef>
+    
     <target name="preparecode">
-        <ac:if>
+        <if>
             <equals arg1="${CONVERTSFDXTOMDAPI}" arg2="yesPlease"/>
             <then>
                 <antcall target="convertForceAppToSrcMetadata"/>
@@ -10,7 +16,7 @@
             <else>
                 <antcall target="convertSrcMetadataToForceApp"/>
             </else>
-        </ac:if>
+        </if>
     </target>
 
     <target name="convertForceAppToSrcMetadata">
@@ -32,7 +38,7 @@
 
     <target name="convertSrcMetadataToForceApp">
         <input  message="Do you want to Continue. This will delete the current force-app folder?" validargs="y,n" addproperty="updatePermission" />
-        <ac:if>
+        <if>
             <equals arg1="${updatePermission}" arg2="y"/>
             <then>
                 <echo message="Deleting already existing force-app folder if any...."/>
@@ -53,7 +59,7 @@
             <else>
                 <echo message="Terminated by the user."/>
             </else>
-        </ac:if>
+        </if>
     </target>
 
 </project>
