@@ -1,0 +1,59 @@
+<project name="Demo-CircleCI"  basedir="." xmlns:sf="antlib:com.salesforce">
+<property name="CONVERTSFDXTOMDAPI" value="${CONVERTSFDXTOMDAPI}" />
+
+    <target name="preparecode">
+        <if>
+            <equals arg1="${CONVERTSFDXTOMDAPI}" arg2="yesPlease"/>
+            <then>
+                <antcall target="convertForceAppToSrcMetadata"/>
+            </then>
+            <else>
+                <antcall target="convertSrcMetadataToForceApp"/>
+            </else>
+        </if>
+    </target>
+
+    <target name="convertForceAppToSrcMetadata">
+        <echo message="Deleting already existing src folder if any...."/>
+        <delete includeemptydirs="true" quiet="true">
+            <fileset dir="src" includes="**/*"/>
+        </delete>
+        <echo message="Starting Conversion...."/>
+        <exec executable="/bin/sh" osfamily="unix">
+            <arg value="-c"/>
+            <arg value="sfdx force:source:convert -r force-app/ -d src"/>
+        </exec>
+        <exec executable="cmd" osfamily="windows">
+            <arg value="/c"/>
+            <arg value="sfdx force:source:convert -r force-app/ -d src"/>
+        </exec>
+        <echo message="Converted"/>
+    </target>
+
+    <target name="convertSrcMetadataToForceApp">
+        <input  message="Do you want to Continue. This will delete the current force-app folder?" validargs="y,n" addproperty="updatePermission" />
+        <if>
+            <equals arg1="${updatePermission}" arg2="y"/>
+            <then>
+                <echo message="Deleting already existing force-app folder if any...."/>
+                <delete includeemptydirs="true" quiet="true">
+                    <fileset dir="force-app/" includes="**/*"/>
+                </delete>
+                <echo message="Starting Conversion...."/>
+                <exec executable="/bin/sh" osfamily="unix">
+                    <arg value="-c"/>
+                    <arg value="sfdx force:mdapi:convert -r ./src -d ./force-app"/>
+                </exec>
+                <exec executable="cmd" osfamily="windows">
+                    <arg value="/c"/>
+                    <arg value="sfdx force:mdapi:convert -r ./src -d ./force-app"/>
+                </exec>
+                <echo message="Converted"/>
+            </then>
+            <else>
+                <echo message="Terminated by the user."/>
+            </else>
+        </if>
+    </target>
+
+</project>
