@@ -316,6 +316,8 @@ public class AccountRoleTriggerHelper_Test {
 				System.assertEquals(null, acc.Inactive_Contacts__c);
 			} // End for
             
+
+            
 		} // End if
         Test.stopTest();
 
