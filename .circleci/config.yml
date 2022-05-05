@@ -14,7 +14,7 @@ jobs:
       - DX_CLI_URL: https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
       - TESTLEVEL: RunSpecifiedTests 
       - TESTCLASSLIST: AccountRoleTriggerHelper_Test,DemoControllerTests,UpdateAmountOnAccountHelperTest
-      - ISCONVERTCODE: yesPlease
+      - ISCONVERTCODE: true
       
     steps:
       - checkout # check out the code in the project directory
@@ -48,7 +48,7 @@ jobs:
 
       - run:
           name: Deploy Code to Target Deployment Org
-          command: . buildScripts/deployCode.sh
+          command: . buildScripts/validateWithTest.sh
 
 workflows:
   version: 2

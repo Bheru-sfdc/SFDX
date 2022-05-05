@@ -18,7 +18,7 @@
     <!-- from this Target we can Convert Code From SFDX to MDAPI and From MDAPI to SFDX-->
     <target name="codeConversion" >
         <if>
-            <equals arg1="${ISCONVERTCODE}" arg2="yesPlease"/>
+            <equals arg1="${ISCONVERTCODE}" arg2="true"/>
             <then>
                 <antcall target="convertSFDXToMDAPI"/>
             </then>
