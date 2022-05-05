@@ -6,13 +6,13 @@
             <pathelement location="${basedir}/lib/ant-salesforce.jar" />
         </classpath>
     </taskdef>
-    
+
     <target name="convertCode">
-        <antcall target="preparecode">
+        <antcall target="codeConversion">
         </antcall>
     </target>
 
-    <target name="preparecode" >
+    <target name="codeConversion" >
         <if>
             <equals arg1="${CONVERTSFDXTOMDAPI}" arg2="yesPlease"/>
             <then>
@@ -32,10 +32,6 @@
         <echo message="Starting Conversion...."/>
         <exec executable="/bin/sh" osfamily="unix">
             <arg value="-c"/>
-            <arg value="sfdx force:source:convert -r force-app/ -d src"/>
-        </exec>
-        <exec executable="cmd" osfamily="windows">
-            <arg value="/c"/>
             <arg value="sfdx force:source:convert -r force-app/ -d src"/>
         </exec>
         <echo message="Converted"/>
