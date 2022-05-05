@@ -19,6 +19,7 @@
                 <antcall target="convertForceAppToSrcMetadata"/>
             </then>
             <else>
+                <antcall target="convertForceAppToSrcMetadata"/>
                 <antcall target="convertSrcMetadataToForceApp"/>
             </else>
         </if>

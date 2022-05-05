@@ -48,7 +48,7 @@ jobs:
 
       - run:
           name: Deploy Code to Target Deployment Org
-          command: . buildScripts/validateWithTest.sh
+          command: . buildScripts/deployCode.sh
 
 workflows:
   version: 2
