@@ -14,7 +14,7 @@ jobs:
       - DX_CLI_URL: https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
       - TESTLEVEL: RunSpecifiedTests 
       - TESTCLASSLIST: AccountRoleTriggerHelper_Test,DemoControllerTests,UpdateAmountOnAccountHelperTest
-      - CONVERTSFDXTOMDAPI: yesPlease
+      - CONVERTSFDXTOMDAPI: #yesPlease
       
     steps:
       - checkout # check out the code in the project directory
@@ -39,7 +39,7 @@ jobs:
             ant -lib lib/  -DCONVERTSFDXTOMDAPI=$CONVERTSFDXTOMDAPI -buildfile build.xml
 
       - run:
-          name: Authenticating org
+          name: Decrypting Server Key
           command: . buildScripts/decryptServerKey.sh
  
       - run:
