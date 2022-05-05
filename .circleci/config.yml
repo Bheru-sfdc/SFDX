@@ -99,8 +99,7 @@ workflows:
 
   deploy-Prod:
     when:
-      and:
-        - equal: [ feature, << pipeline.git.branch >> ]
+      - equal: [ feature, << pipeline.git.branch >> ]
     jobs:
       - validate-code
       - deploy-code:
