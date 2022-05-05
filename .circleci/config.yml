@@ -14,7 +14,7 @@ jobs:
       - DX_CLI_URL: https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
       - TESTLEVEL: RunSpecifiedTests 
       - TESTCLASSLIST: AccountRoleTriggerHelper_Test,DemoControllerTests,UpdateAmountOnAccountHelperTest
-     
+      - CONVERTSFDXTOMDAPI: yesPlease
       
     steps:
       - checkout # check out the code in the project directory
@@ -33,66 +33,22 @@ jobs:
             git pull origin << pipeline.git.branch >>
 
       - run:
+          name: Get Changes For Deploy
+          command: |
+            #Using Ant script copy only changed files to a deployment source directory 
+            ant -lib lib/ Dsrc.dir=src -DCONVERTSFDXTOMDAPI=$CONVERTSFDXTOMDAPI -buildfile build.xml
+
+      - run:
           name: Authenticating org
           command: . buildScripts/decryptServerKey.sh
  
       - run:
           name: Authenticating org
           command: . buildScripts/loginToSandbox.sh
-
-      - run:
-          name: convert the files in deploy folder to MDAPI format
-          command: . buildScripts/convertIntoMDAPI.sh
 
       - run:
           name: Deploy Code to Target Deployment Org
           command: . buildScripts/validateWithTest.sh
-
-  deploy-code:
-    machine: true
-    working_directory: ~/ci_app
-    environment:
-      # from https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli_standalone.htm
-      # and https://developer.salesforce.com/media/salesforce-cli/manifest.json
-      - DX_CLI_URL: https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
-      
-    steps:
-      - checkout # check out the code in the project directory
-      
-      - run:
-          name: Download and Install SFDX CLI
-          command: . buildScripts/installCLI.sh
-
-      - run:
-          name: Set HEAD in GitHub Repo
-          command: |
-            #set Git Username and Password
-            git config user.email "kbssalesforce77@gmail.com"
-            git config user.name "Bheru-sfdc"
-            #git pull origin develop
-            git pull origin << pipeline.git.branch >>
- 
-      - run:
-          name: Authenticating org
-          command: . buildScripts/decryptServerKey.sh
-
-      - run:
-          name: Authenticating org
-          command: . buildScripts/loginToSandbox.sh
-
-      - run:
-          name: convert the files in deploy folder to MDAPI format
-          command: . buildScripts/convertIntoMDAPI.sh
-
-      - run:
-          name: convert MDAPI to SFDX
-          command: . buildScripts/convertMDAPIToSFDX.sh
-
-      - run:
-          name: Deploy Code to Target Deployment Org
-          command: . buildScripts/deployCode.sh
-  
-
 
 workflows:
   version: 2
@@ -104,27 +60,4 @@ workflows:
           filters:
             branches:
               only: /^feature.*/
-
-  deploy-Prod:
-    when:
-      and:
-        - equal: [ master, << pipeline.git.branch >> ]
-    jobs:
-      - validate-code
-      - deploy-code:
-          name: deploy-prod
-          context: Dev-Sandbox
-          filters:
-            branches:
-              only: /^master.*/
-          requires:
-            - validate-code
-          
-          
-          
-
-        
-
-  
-
-  
+ 
