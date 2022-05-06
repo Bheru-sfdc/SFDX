@@ -14,8 +14,8 @@ jobs:
       - DX_CLI_URL: https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
       - TESTLEVEL: RunSpecifiedTests 
       - TESTCLASSLIST: AccountRoleTriggerHelper_Test,DemoControllerTests,UpdateAmountOnAccountHelperTest
-      - ISCONVERTCODEINTOMDAPI: false
-      - DEPLOYWITHTEST: false
+      - ISCONVERTCODEINTOMDAPI: true
+      - DEPLOYWITHTEST: true
       
     steps:
       - checkout # check out the code in the project directory
