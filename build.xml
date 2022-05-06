@@ -1,7 +1,7 @@
 <project name="Demo-CircleCI" default="deployCodeCheckOnly" basedir="." xmlns:sf="antlib:com.salesforce">
     
     <!--- Added property -->
-    <property name="ISCONVERTCODE" value="${ISCONVERTCODE}" />
+    <property name="ISCONVERTCODEINTOMDAPI" value="${ISCONVERTCODEINTOMDAPI}" />
     <property name="DEPLOYWITHTEST" value="${DEPLOYWITHTEST}" />
     
     <!-- libraries-->
@@ -39,7 +39,7 @@
     <!-- from this Target, we can Convert Code From SFDX to MDAPI and From MDAPI to SFDX-->
     <target name="codeConversion" >
         <if>
-            <equals arg1="${ISCONVERTCODE}" arg2="true"/>
+            <equals arg1="${ISCONVERTCODEINTOMDAPI}" arg2="true"/>
             <then>
                 <antcall target="convertSFDXToMDAPI"/>
             </then>

@@ -14,8 +14,8 @@ jobs:
       - DX_CLI_URL: https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
       - TESTLEVEL: RunSpecifiedTests 
       - TESTCLASSLIST: AccountRoleTriggerHelper_Test,DemoControllerTests,UpdateAmountOnAccountHelperTest
-      - ISCONVERTCODE: true
-      - DEPLOYWITHTEST: true
+      - ISCONVERTCODEINTOMDAPI: true
+      - DEPLOYWITHTEST: false
       
     steps:
       - checkout # check out the code in the project directory
@@ -37,7 +37,7 @@ jobs:
           name: Get Changes For Deploy, Convert Code and deploy code on Org 
           command: |
             #Using Ant script copy only changed files to a deployment source directory 
-            ant -lib lib/  -DISCONVERTCODE=$ISCONVERTCODE -DDEPLOYWITHTEST=$DEPLOYWITHTEST -DSFDX_Username=$SFDX_Username -Dpass=$pass -DInstance_URL=$Instance_URL -buildfile build.xml
+            ant -lib lib/  -DISCONVERTCODEINTOMDAPI=$ISCONVERTCODEINTOMDAPI -DDEPLOYWITHTEST=$DEPLOYWITHTEST -DSFDX_Username=$SFDX_Username -Dpass=$pass -DInstance_URL=$Instance_URL -buildfile build.xml
 
     
 
