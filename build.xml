@@ -35,6 +35,7 @@
             </else>
 
         </if>
+        <antcall target="replaceSupportAddressesForCircleci"/>
     </target>
 
     <!-- from this Target, we can Convert Code From SFDX to MDAPI and From MDAPI to SFDX-->
@@ -89,4 +90,13 @@
         <sf:deploy username="${SFDX_Username}" password="${pass}" serverurl="${Instance_URL}" deployRoot="${deployRoot}" checkOnly="${checkOnly}" />
     </target>
 
+     <!-- Replace production support addresses for circleci deployment  -->
+    <target name="replaceSupportAddressesForCircleci">
+        <replace file="src/main/default/labels/CustomLabels.labels-meta.xml">	
+            <replacetoken><![CDATA[<value>Demo@salesforce.com</value>]]></replacetoken>	
+            <replacevalue expandproperties="true"><![CDATA[<value>${Sender_Email}</value>]]></replacevalue>	
+        </replace>
+
+    </target>
+    
 </project>
