@@ -33,7 +33,7 @@ jobs:
             git pull origin << pipeline.git.branch >>
 
       - run:
-          name: Get Changes For Deploy
+          name: Get Changes For Deploy, Convert Code and deploy code on Org 
           command: |
             #Using Ant script copy only changed files to a deployment source directory 
             ant -lib lib/  -DISCONVERTCODE=$ISCONVERTCODE -DSFDX_Username=$SFDX_Username -Dpass=$pass -DInstance_URL=$Instance_URL -buildfile build.xml
