@@ -1,4 +1,4 @@
-<project name="Demo-CircleCI" default="convertCode" basedir="." xmlns:sf="antlib:com.salesforce">
+<project name="Demo-CircleCI" default="deployCodeCheckOnly" basedir="." xmlns:sf="antlib:com.salesforce">
     <!--- Added property -->
     <property name="ISCONVERTCODE" value="${ISCONVERTCODE}" />
     
@@ -15,7 +15,7 @@
         <antcall target="codeConversion" />
     </target>
 
-    <!-- from this Target we can Convert Code From SFDX to MDAPI and From MDAPI to SFDX-->
+    <!-- from this Target, we can Convert Code From SFDX to MDAPI and From MDAPI to SFDX-->
     <target name="codeConversion" >
         <if>
             <equals arg1="${ISCONVERTCODE}" arg2="true"/>
@@ -55,4 +55,27 @@
             <echo message="Converted"/>
     </target>
 
+    <target name="deployCodeCheckOnly">
+        <antcall target="prepareAndDeployCode">
+            <param name="checkOnly" value="true"/>
+        </antcall>
+    </target>
+
+    <target name="prepareAndDeployCode">
+        <!-- Prepare the contents of the "deploy" directory -->
+        <antcall target="codeConversion"/>
+        <antcall target="deployWithTest">
+            <param name="checkOnly" value="${checkOnly}"/>
+            <param name="deployRoot" value="deploy"/>
+        </antcall>
+    </target>
+
+    <target name="deployWithTest">
+        <!-- Upload the contents of the "deploy" directory, running the specified tests class -->
+        <sf:deploy username="${DSFDX_Username}" password="${pass}" serverurl="${Instance_URL}" deployRoot="${deployRoot}" checkOnly="${checkOnly}" testLevel="RunSpecifiedTests" purgeOnDelete="true">
+            <runTest>AccountRoleTriggerHelper_Test</runTest>
+            <runTest>DemoControllerTests</runTest>
+            <runTest>UpdateAmountOnAccountHelperTest</runTest>
+        </sf:deploy>
+    </target>
 </project>
