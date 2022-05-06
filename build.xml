@@ -1,6 +1,7 @@
 <project name="Demo-CircleCI" default="deployCodeCheckOnly" basedir="." xmlns:sf="antlib:com.salesforce">
     
     <!--- Added property -->
+    <property file="build.properties"/>
     <property name="ISCONVERTCODEINTOMDAPI" value="${ISCONVERTCODEINTOMDAPI}" />
     <property name="DEPLOYWITHTEST" value="${DEPLOYWITHTEST}" />
     
