@@ -38,17 +38,7 @@ jobs:
             #Using Ant script copy only changed files to a deployment source directory 
             ant -lib lib/  -DISCONVERTCODE=$ISCONVERTCODE -DSFDX_Username=$SFDX_Username -Dpass=$pass -DInstance_URL=$Instance_URL -buildfile build.xml
 
-      - run:
-          name: Decrypting Server Key
-          command: . buildScripts/decryptServerKey.sh
- 
-      - run:
-          name: Authenticating org
-          command: . buildScripts/loginToSandbox.sh
-
-      - run:
-          name: Deploy Code to Target Deployment Org
-          command: . buildScripts/validateWithTest.sh
+    
 
 workflows:
   version: 2
