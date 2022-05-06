@@ -1,7 +1,7 @@
 <project name="Demo-CircleCI" default="deployCodeCheckOnly" basedir="." xmlns:sf="antlib:com.salesforce">
     <!--- Added property -->
     <property name="ISCONVERTCODE" value="${ISCONVERTCODE}" />
-    
+    <property name="DEPLOYWITHTEST" value="${DEPLOYWITHTEST}" />
     <!-- libraries-->
     <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${basedir}/lib/ant-contrib-1.0b3.jar"/>
     <taskdef resource="com/salesforce/antlib.xml" uri="antlib:com.salesforce">
@@ -10,9 +10,29 @@
         </classpath>
     </taskdef>
 
-    <!-- Base Target -->
-    <target name="convertCode">
-        <antcall target="codeConversion" />
+    <!-- BASE TARGET-->
+    <target name="deployCodeCheckOnly">
+        <antcall target="prepareAndDeployCode" />
+   </target>
+
+    <target name="prepareAndDeployCode">
+        <if>
+            <equals arg1="${DEPLOYWITHTEST}" arg2="true">
+            <then>
+                <!-- Prepare the contents of the "src" directory -->
+                <antcall target="codeConversion"/>
+                <antcall target="deployWithTest">
+                    <param name="checkOnly" value="${checkOnly}"/>
+                    <param name="deployRoot" value="src"/>
+                </antcall>
+            </then>
+            <else>
+                <antcall target="deployWithoutTest">
+                    <param name="deployRoot" value="src"/>
+                </antcall>
+            </else>
+
+        </if>
     </target>
 
     <!-- from this Target, we can Convert Code From SFDX to MDAPI and From MDAPI to SFDX-->
@@ -55,25 +75,17 @@
             <echo message="Converted"/>
     </target>
 
-    <target name="deployCodeCheckOnly">
-        <antcall target="prepareAndDeployCode" />
-   </target>
-
-    <target name="prepareAndDeployCode">
-        <!-- Prepare the contents of the "deploy" directory -->
-        <antcall target="codeConversion"/>
-        <antcall target="deployWithTest">
-            <param name="checkOnly" value="${checkOnly}"/>
-            <param name="deployRoot" value="src"/>
-        </antcall>
-    </target>
-
     <target name="deployWithTest">
-        <!-- Upload the contents of the "deploy" directory, running the specified tests class -->
-        <sf:deploy username="${SFDX_Username}" password="${pass}" serverurl="${Instance_URL}" deployRoot="${deployRoot}" checkOnly="${checkOnly}" testLevel="RunSpecifiedTests" purgeOnDelete="true">
+        <!-- Upload the contents of the "src" directory, running the specified tests class -->
+        <sf:deploy username="${SFDX_Username}" password="${pass}" serverurl="${Instance_URL}" deployRoot="${deployRoot}" checkOnly="${checkOnly}" testLevel="RunSpecifiedTests">
             <runTest>AccountRoleTriggerHelper_Test</runTest>
             <runTest>DemoControllerTests</runTest>
             <runTest>UpdateAmountOnAccountHelperTest</runTest>
         </sf:deploy>
     </target>
+
+    <target name="deployWithoutTest">
+        <sf:deploy username="${SFDX_Username}" password="${pass}" serverurl="${Instance_URL}" deployRoot="${deployRoot}" checkOnly="${checkOnly}" />
+    </target>
+
 </project>
