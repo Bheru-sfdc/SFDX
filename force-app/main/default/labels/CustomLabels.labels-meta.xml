@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>Sender_Email</fullName>
+        <categories>Demo</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Sender Email Address</shortDescription>
+        <value>Demo@salesforce.com</value>
+    </labels>
+</CustomLabels>
