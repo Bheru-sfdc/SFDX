@@ -21,16 +21,16 @@
         <if>
             <equals arg1="${DEPLOYWITHTEST}" arg2="true" />
             <then>
-                <antcall target="replaceSupportAddressesForCircleci"/>
                 <antcall target="codeConversion"/>
+                <antcall target="replaceSupportAddressesForCircleci"/>
                 <antcall target="deployWithTest">
                     <param name="checkOnly" value="${checkOnly}"/>
                     <param name="deployRoot" value="src"/>
                 </antcall>
             </then>
             <else>
-                <antcall target="replaceSupportAddressesForCircleci"/>
                 <antcall target="codeConversion"/>
+                <antcall target="replaceSupportAddressesForCircleci"/>
                 <antcall target="deployWithoutTest">
                     <param name="deployRoot" value="src"/>
                 </antcall>
@@ -94,7 +94,7 @@
 
      <!-- Replace production support addresses for circleci deployment  -->
     <target name="replaceSupportAddressesForCircleci">
-        <replace file="src/main/default/labels/CustomLabels.labels.xml">	
+        <replace file="src/main/default/labels/CustomLabels.labels-meta.xml">	
             <replacetoken><![CDATA[<value>Demo@salesforce.com</value>]]></replacetoken>	
             <replacevalue expandproperties="true"><![CDATA[<value>${Sender_Email}</value>]]></replacevalue>	
         </replace>
