@@ -93,7 +93,7 @@
 
      <!-- Replace production support addresses for circleci deployment  -->
     <target name="replaceSupportAddressesForCircleci">
-        <replace file="src/labels/CustomLabels.labels.xml">	
+        <replace file="src/main/default/labels/CustomLabels.labels-meta.xml">	
             <replacetoken><![CDATA[<value>Demo@salesforce.com</value>]]></replacetoken>	
             <replacevalue expandproperties="true"><![CDATA[<value>${Sender_Email}</value>]]></replacevalue>	
         </replace>
