@@ -28,6 +28,7 @@
                 </antcall>
             </then>
             <else>
+                <antcall target="codeConversion"/>
                 <antcall target="deployWithoutTest">
                     <param name="deployRoot" value="src"/>
                 </antcall>
