@@ -20,6 +20,7 @@
 
     <target name="prepareAndDeployCode">
         <antcall target="codeConversion"/>
+        <antcall target="replaceSupportAddressesForCircleci" />
         <if>
             <equals arg1="${DEPLOYWITHTEST}" arg2="true" />
             <then>
