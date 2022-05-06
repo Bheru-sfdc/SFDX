@@ -1,7 +1,7 @@
 <project name="Demo-CircleCI" default="deployCodeCheckOnly" basedir="." xmlns:sf="antlib:com.salesforce">
     
     <!--- Added property -->
-    <property file="build.properties"/>
+    <property file="local.build.properties"/>
     <property name="ISCONVERTCODEINTOMDAPI" value="${ISCONVERTCODEINTOMDAPI}" />
     <property name="DEPLOYWITHTEST" value="${DEPLOYWITHTEST}" />
     
@@ -25,12 +25,13 @@
             <equals arg1="${DEPLOYWITHTEST}" arg2="true" />
             <then>
                 <antcall target="deployWithTest">
-                    <param name="checkOnly" value="${checkOnly}"/>
+                    <param name="checkOnly" value="true"/>
                     <param name="deployRoot" value="src"/>
                 </antcall>
             </then>
             <else>
                 <antcall target="deployWithoutTest">
+                    <param name="checkOnly" value="true"/>
                     <param name="deployRoot" value="src"/>
                 </antcall>
             </else>
