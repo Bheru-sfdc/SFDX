@@ -1,7 +1,9 @@
 <project name="Demo-CircleCI" default="deployCodeCheckOnly" basedir="." xmlns:sf="antlib:com.salesforce">
+    
     <!--- Added property -->
     <property name="ISCONVERTCODE" value="${ISCONVERTCODE}" />
     <property name="DEPLOYWITHTEST" value="${DEPLOYWITHTEST}" />
+    
     <!-- libraries-->
     <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${basedir}/lib/ant-contrib-1.0b3.jar"/>
     <taskdef resource="com/salesforce/antlib.xml" uri="antlib:com.salesforce">
@@ -17,9 +19,8 @@
 
     <target name="prepareAndDeployCode">
         <if>
-            <equals arg1="${DEPLOYWITHTEST}" arg2="true">
+            <equals arg1="${DEPLOYWITHTEST}" arg2="true" />
             <then>
-                <!-- Prepare the contents of the "src" directory -->
                 <antcall target="codeConversion"/>
                 <antcall target="deployWithTest">
                     <param name="checkOnly" value="${checkOnly}"/>
@@ -76,7 +77,6 @@
     </target>
 
     <target name="deployWithTest">
-        <!-- Upload the contents of the "src" directory, running the specified tests class -->
         <sf:deploy username="${SFDX_Username}" password="${pass}" serverurl="${Instance_URL}" deployRoot="${deployRoot}" checkOnly="${checkOnly}" testLevel="RunSpecifiedTests">
             <runTest>AccountRoleTriggerHelper_Test</runTest>
             <runTest>DemoControllerTests</runTest>
