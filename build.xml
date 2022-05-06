@@ -72,7 +72,7 @@
 
     <target name="deployWithTest">
         <!-- Upload the contents of the "deploy" directory, running the specified tests class -->
-        <sf:deploy username="${DSFDX_Username}" password="${pass}" serverurl="${Instance_URL}" deployRoot="${deployRoot}" checkOnly="${checkOnly}" testLevel="RunSpecifiedTests" purgeOnDelete="true">
+        <sf:deploy username="${SFDX_Username}" password="${pass}" serverurl="${Instance_URL}" deployRoot="${deployRoot}" checkOnly="${checkOnly}" testLevel="RunSpecifiedTests" purgeOnDelete="true">
             <runTest>AccountRoleTriggerHelper_Test</runTest>
             <runTest>DemoControllerTests</runTest>
             <runTest>UpdateAmountOnAccountHelperTest</runTest>
