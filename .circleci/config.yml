@@ -23,6 +23,10 @@ jobs:
           command: |
             echo 'Hello Developer!'
             echo 'This is the delivery pipeline'
+
+      - restore_cache:
+          key: v1-{{checksum "tmp"}}
+
       - run:
           name: Download CLI
           command: |
@@ -34,6 +38,10 @@ jobs:
             ./sfdx/install
             sfdx
             mkdir tmp
+      - save_cache:
+          key: v1-{{checksum "tmp"}}
+          path: 
+            - "tmp"
       - run:
           name: Set HEAD in GitHub Repo
           command: |
