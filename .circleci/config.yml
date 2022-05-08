@@ -25,7 +25,7 @@ jobs:
             echo 'This is the delivery pipeline'
 
       - restore_cache:
-          key: v1-{{checksum "tmp"}}
+          key: - v1 - {{checksum "tmp"}}
 
       - run:
           name: Download CLI
@@ -39,7 +39,7 @@ jobs:
             sfdx
             mkdir tmp
       - save_cache:
-          key: v1-{{checksum "tmp"}}
+          key: - v1 - {{checksum "tmp"}}
           path: 
             - "tmp"
       - run:
