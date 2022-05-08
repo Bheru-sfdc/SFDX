@@ -25,7 +25,8 @@ jobs:
             echo 'This is the delivery pipeline'
 
       - restore_cache:
-          key: v1 - {{checksum "sfdx"}}
+          keys:
+            - v1-dependencies-{{ checksum "requirements.txt" }}
 
       - run:
           name: Download CLI
@@ -39,9 +40,10 @@ jobs:
             sfdx
             mkdir tmp
       - save_cache:
-          key: v1 - {{checksum "sfdx"}}
-          path: 
-            - "tmp"
+          paths:
+            - ./venv
+          key: v1-dependencies-{{ checksum "requirements.txt" }}
+
       - run:
           name: Set HEAD in GitHub Repo
           command: |
