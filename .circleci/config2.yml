@@ -91,22 +91,20 @@ jobs:
       - run:
           name: Deploy Code to Target Deployment Org
           command: . buildScripts/deployCode.sh
-  
-
 
 workflows:
   version: 2
   deploy-Prod:
     jobs:
-      - validate-code
+      # - validate-code
       - deploy-code:
           name: deploy-prod
-          context: Dev-Sandbox
+          context: Bheru-Sandbox
           filters:
             branches:
-              only: /^master.*/
-          requires:
-            - validate-code
+              only: /^feature.*/
+          #requires:
+           # - validate-code
           
           
           
