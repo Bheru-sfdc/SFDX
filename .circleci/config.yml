@@ -97,7 +97,7 @@ workflows:
   deploy-Prod:
     jobs:
       - validate-code
-          name: deploy-feature
+          name: deploy-prod
           context: Bheru-Sandbox
           filters:
             branches:
