@@ -1,4 +1,4 @@
 mkdir keys  
-    echo $DevOrg_Key | base64 -di > keys/server.key
+    echo $Consumer_key | base64 -di > keys/server.key
 echo "Authenticating org"
-    sfdx force:auth:jwt:grant --clientid $DevOrg_Consumer --jwtkeyfile keys/server.key --username $DevOrg_UserName --instanceurl $Instance_URL --setdefaultdevhubusername -a DevHub
+    sfdx force:auth:jwt:grant --clientid $Consumer_key --jwtkeyfile keys/server.key --username $SFDX_Username --instanceurl $Instance_URL --setdefaultdevhubusername -a DevHub
