@@ -105,6 +105,14 @@ workflows:
           filters:
             branches:
               only: /^feature.*/
+      - deploy-code:
+          name: deploy-prod
+          context: Bheru-Sandbox
+          requires:
+            - validate-code 
+          filters:
+            branches:
+              only: /^feature.*/
 
           
           
