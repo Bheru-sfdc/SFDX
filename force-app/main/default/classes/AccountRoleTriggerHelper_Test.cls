@@ -315,7 +315,16 @@ public class AccountRoleTriggerHelper_Test {
 				System.assertEquals('Contact0', acc.Active_Contacts__c);
 				System.assertEquals(null, acc.Inactive_Contacts__c);
 			} // End for
-            
+
+            // check Replace supportAddresses
+            /*OrgWideEmailAddress[] senderAddress = [
+                SELECT Id
+                FROM OrgWideEmailAddress
+                WHERE Address = :System.Label.Sender_Email
+            ];
+
+            System.assertEquals(1, senderAddress.size());*/
+
 		} // End if
         Test.stopTest();
 

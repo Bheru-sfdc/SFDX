@@ -33,9 +33,9 @@ jobs:
             git pull origin << pipeline.git.branch >>
 
       - run:
-          name: Authenticating org
+          name: decryptServerKey org
           command: . buildScripts/decryptServerKey.sh
- 
+
       - run:
           name: Authenticating org
           command: . buildScripts/loginToSandbox.sh
@@ -74,10 +74,6 @@ jobs:
  
       - run:
           name: Authenticating org
-          command: . buildScripts/decryptServerKey.sh
-
-      - run:
-          name: Authenticating org
           command: . buildScripts/loginToSandbox.sh
 
       - run:
@@ -91,34 +87,21 @@ jobs:
       - run:
           name: Deploy Code to Target Deployment Org
           command: . buildScripts/deployCode.sh
-  
-
 
 workflows:
   version: 2
-  deploy-feature:
+  deploy-Prod:
     jobs:
-      - validate-code:
-          name: deploy-feature
+      - validate-code      
+      - deploy-code:
+          name: deploy-prod
           context: Bheru-Sandbox
+          requires:
+            - validate-code 
           filters:
             branches:
               only: /^feature.*/
 
-  deploy-Prod:
-    when:
-      and:
-        - equal: [ master, << pipeline.git.branch >> ]
-    jobs:
-      - validate-code
-      - deploy-code:
-          name: deploy-prod
-          context: Dev-Sandbox
-          filters:
-            branches:
-              only: /^master.*/
-          requires:
-            - validate-code
           
           
           

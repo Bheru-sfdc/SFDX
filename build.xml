@@ -1,19 +1,60 @@
-<project name="Demo-CircleCI"  basedir="." xmlns:sf="antlib:com.salesforce">
-<property name="CONVERTSFDXTOMDAPI" value="${CONVERTSFDXTOMDAPI}" />
+<project name="Demo-CircleCI" default="deployCodeCheckOnly" basedir="." xmlns:sf="antlib:com.salesforce">
+    
+    <!--- Added property -->
+    <property file="local.build.properties"/>
+    <property name="ISCONVERTCODEINTOMDAPI" value="${ISCONVERTCODEINTOMDAPI}" />
+    <property name="DEPLOYWITHTEST" value="${DEPLOYWITHTEST}" />
+    
+    <!-- libraries-->
+    <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${basedir}/lib/ant-contrib-1.0b3.jar"/>
+    <taskdef resource="com/salesforce/antlib.xml" uri="antlib:com.salesforce">
+        <classpath>
+            <pathelement location="${basedir}/lib/ant-salesforce.jar" />
+        </classpath>
+    </taskdef>
 
-    <target name="preparecode">
+    <!-- BASE TARGET-->
+    <target name="deployCodeCheckOnly">
+        <antcall target="prepareAndDeployCode" />
+   </target>
+
+    <target name="prepareAndDeployCode">
+        <antcall target="codeConversion"/>
+        <antcall target="replaceSupportAddressesForCircleci" />
         <if>
-            <equals arg1="${CONVERTSFDXTOMDAPI}" arg2="yesPlease"/>
+            <equals arg1="${DEPLOYWITHTEST}" arg2="true" />
             <then>
-                <antcall target="convertForceAppToSrcMetadata"/>
+                <antcall target="deployWithTest">
+                    <param name="checkOnly" value="true"/>
+                    <param name="deployRoot" value="src"/>
+                </antcall>
             </then>
             <else>
-                <antcall target="convertSrcMetadataToForceApp"/>
+                <antcall target="deployWithoutTest">
+                    <param name="checkOnly" value="true"/>
+                    <param name="deployRoot" value="src"/>
+                </antcall>
+            </else>
+
+        </if>
+        
+    </target>
+
+    <!-- from this Target, we can Convert Code From SFDX to MDAPI and From MDAPI to SFDX-->
+    <target name="codeConversion" >
+        <if>
+            <equals arg1="${ISCONVERTCODEINTOMDAPI}" arg2="true"/>
+            <then>
+                <antcall target="convertSFDXToMDAPI"/>
+            </then>
+            <else>
+                <antcall target="convertSFDXToMDAPI"/>
+                <antcall target="convertMDAPIToSFDX"/>
             </else>
         </if>
     </target>
 
-    <target name="convertForceAppToSrcMetadata">
+    <target name="convertSFDXToMDAPI">
         <echo message="Deleting already existing src folder if any...."/>
         <delete includeemptydirs="true" quiet="true">
             <fileset dir="src" includes="**/*"/>
@@ -23,37 +64,41 @@
             <arg value="-c"/>
             <arg value="sfdx force:source:convert -r force-app/ -d src"/>
         </exec>
-        <exec executable="cmd" osfamily="windows">
-            <arg value="/c"/>
-            <arg value="sfdx force:source:convert -r force-app/ -d src"/>
-        </exec>
         <echo message="Converted"/>
     </target>
 
-    <target name="convertSrcMetadataToForceApp">
-        <input  message="Do you want to Continue. This will delete the current force-app folder?" validargs="y,n" addproperty="updatePermission" />
-        <if>
-            <equals arg1="${updatePermission}" arg2="y"/>
-            <then>
-                <echo message="Deleting already existing force-app folder if any...."/>
-                <delete includeemptydirs="true" quiet="true">
-                    <fileset dir="force-app/" includes="**/*"/>
-                </delete>
-                <echo message="Starting Conversion...."/>
-                <exec executable="/bin/sh" osfamily="unix">
-                    <arg value="-c"/>
-                    <arg value="sfdx force:mdapi:convert -r ./src -d ./force-app"/>
-                </exec>
-                <exec executable="cmd" osfamily="windows">
-                    <arg value="/c"/>
-                    <arg value="sfdx force:mdapi:convert -r ./src -d ./force-app"/>
-                </exec>
-                <echo message="Converted"/>
-            </then>
-            <else>
-                <echo message="Terminated by the user."/>
-            </else>
-        </if>
+    <target name="convertMDAPIToSFDX">
+        <echo message="Deleting already existing force-app folder if any...."/>
+        <delete includeemptydirs="true" quiet="true">
+            <fileset dir="force-app/" includes="**/*"/>
+        </delete>
+        <echo message="Starting Conversion...."/>
+            <exec executable="/bin/sh" osfamily="unix">
+                <arg value="-c"/>
+                <arg value="sfdx force:mdapi:convert -r ./src -d ./force-app"/>
+            </exec>
+            <echo message="Converted"/>
+    </target>
+
+    <target name="deployWithTest">
+        <sf:deploy username="${SFDX_Username}" password="${pass}" serverurl="${Instance_URL}" deployRoot="${deployRoot}" checkOnly="${checkOnly}" testLevel="RunSpecifiedTests">
+            <runTest>AccountRoleTriggerHelper_Test</runTest>
+            <runTest>DemoControllerTests</runTest>
+            <runTest>UpdateAmountOnAccountHelperTest</runTest>
+        </sf:deploy>
+    </target>
+
+    <target name="deployWithoutTest">
+        <sf:deploy username="${SFDX_Username}" password="${pass}" serverurl="${Instance_URL}" deployRoot="${deployRoot}" checkOnly="${checkOnly}" />
+    </target>
+
+     <!-- Replace production support addresses for circleci deployment  -->
+    <target name="replaceSupportAddressesForCircleci">
+        <replace file="src/labels/CustomLabels.labels">	
+            <replacetoken><![CDATA[<value>Demo@salesforce.com</value>]]></replacetoken>	
+            <replacevalue expandproperties="true"><![CDATA[<value>${Sender_Email}</value>]]></replacevalue>	
+        </replace>
+
     </target>
 
 </project>
